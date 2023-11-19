@@ -5,7 +5,7 @@ project(lua-enet)
 add_library(enet SHARED enet.c)
 
 set(LUA_LIBRARIES
-    ${PROJECT_SOURCE_DIR}/luajit2.1/bin/lua5.1
+    ${PROJECT_SOURCE_DIR}/luajit2.1/bin/lua5.1.lib
 )
 
 set(LUA_INCLUDE_DIR
