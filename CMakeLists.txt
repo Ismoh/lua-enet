@@ -5,11 +5,11 @@ project(lua-enet)
 add_library(enet SHARED enet.c)
 
 set(LUA_LIBRARIES
-D:/______BACKUP/NoitaMP_repo/NoitaMP/LuaJIT-2.1.0-beta3/bin/lua5.1.lib
+    ${PROJECT_SOURCE_DIR}/luajit2.1/bin/lua5.1
 )
 
 set(LUA_INCLUDE_DIR
-D:/______BACKUP/NoitaMP_repo/NoitaMP/LuaJIT-2.1.0-beta3/include
+    ${PROJECT_SOURCE_DIR}/luajit2.1/include
 )
 #find_package(Lua51 REQUIRED)
 
