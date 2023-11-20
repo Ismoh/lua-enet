@@ -4,8 +4,6 @@ project(lua-enet)
 
 add_library(enet SHARED enet.c)
 
-add_subdirectory(enet)
-
 set(LUA_LIBRARIES
     ${PROJECT_SOURCE_DIR}/luajit2.1/bin/lua51.lib
 )
