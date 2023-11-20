@@ -16,7 +16,7 @@ set(LUA_INCLUDE_DIR
     ${PROJECT_SOURCE_DIR}/luajit2.1/include
 )
 set(ENET_INCLUDE_DIR
-    ${PROJECT_SOURCE_DIR}/enet
+    ${PROJECT_SOURCE_DIR}
 )
 
 include_directories(${ENET_INCLUDE_DIR})
