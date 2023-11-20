@@ -9,7 +9,7 @@ set(LUA_LIBRARIES
 )
 
 set(ENET_LIBRARY
-    ${PROJECT_SOURCE_DIR}/enet
+    ${PROJECT_SOURCE_DIR}/enet/enet.lib
 )
 
 set(LUA_INCLUDE_DIR
