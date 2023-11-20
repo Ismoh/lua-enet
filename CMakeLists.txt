@@ -4,6 +4,8 @@ project(lua-enet)
 
 add_library(enet SHARED enet.c)
 
+add_subdirectory(${PROJECT_SOURCE_DIR}/enet/)
+
 set(LUA_LIBRARIES
     ${PROJECT_SOURCE_DIR}/luajit2.1/bin/lua51.lib
 )
@@ -22,5 +24,4 @@ target_link_libraries(enet
 
 target_include_directories(enet
     PRIVATE ${LUA_INCLUDE_DIR}
-    PUBLIC ${PROJECT_SOURCE_DIR}/enet # PRIVATE?
 )
