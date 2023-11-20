@@ -19,6 +19,8 @@ set(ENET_INCLUDE_DIR
     ${PROJECT_SOURCE_DIR}/enet
 )
 
+include_directories(${ENET_INCLUDE_DIR})
+
 target_link_libraries(enet
     PRIVATE winmm ws2_32 ${LUA_LIBRARIES} ${ENET_LIBRARY}
 )
