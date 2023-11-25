@@ -309,26 +309,6 @@ static int host_check_events(lua_State *l) {
 }
 
 /**
- * Enables an adaptive order-2 PPM range coder for the transmitted data of
- * all peers.
- */
-static int host_compress_with_range_coder(lua_State *l) {
-	ENetHost *host = check_host(l, 1);
-	if (!host) {
-		return luaL_error(l, "Tried to index a nil host!");
-	}
-
-	int result = enet_host_compress_with_range_coder (host);
-	if (result == 0) {
-		lua_pushboolean (l, 1);
-	} else {
-		lua_pushboolean (l, 0);
-	}
-
-	return 1;
-}
-
-/**
  * Connect a host to an address
  * Args:
  *	the address
@@ -737,7 +717,6 @@ static const struct luaL_Reg enet_funcs [] = {
 static const struct luaL_Reg enet_host_funcs [] = {
 	{"service", host_service},
 	{"check_events", host_check_events},
-	{"compress_with_range_coder", host_compress_with_range_coder},
 	{"connect", host_connect},
 	{"flush", host_flush},
 	{"broadcast", host_broadcast},
