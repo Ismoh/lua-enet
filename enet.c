@@ -418,22 +418,24 @@ static int host_get_socket_address(lua_State *l) {
 	ENetAddress address;
 	enet_socket_get_address (host->socket, &address);
 
+	// old lua-enet
 	// lua_pushfstring(l, "%d.%d.%d.%d:%d",
 	// 		((address.host) & 0xFF),
 	// 		((address.host >> 8) & 0xFF),
 	// 		((address.host >> 16) & 0xFF),
 	// 		(address.host >> 24& 0xFF),
 	// 		address.port);
-	lua_pushfstring(l, "%d.%d.%d.%d:%d",
-			address.host.Byte[12],
-			address.host.Byte[13],
-			address.host.Byte[14],
-			address.host.Byte[15],
-	 		address.port);
-	)
 
+	// lua-enet 2.3.6 for ipv4 only
+	lua_pushfstring(l, "%d.%d.%d.%d:%d",
+			address.host.s6_addr[12],
+			address.host.s6_addr[13],
+			address.host.s6_addr[14],
+			address.host.s6_addr[15],
+	 		address.port);
 	return 1;
 }
+
 static int host_total_sent_data(lua_State *l) {
 	ENetHost *host = check_host(l, 1);
 	if (!host) {
