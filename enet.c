@@ -418,12 +418,19 @@ static int host_get_socket_address(lua_State *l) {
 	ENetAddress address;
 	enet_socket_get_address (host->socket, &address);
 
+	// lua_pushfstring(l, "%d.%d.%d.%d:%d",
+	// 		((address.host) & 0xFF),
+	// 		((address.host >> 8) & 0xFF),
+	// 		((address.host >> 16) & 0xFF),
+	// 		(address.host >> 24& 0xFF),
+	// 		address.port);
 	lua_pushfstring(l, "%d.%d.%d.%d:%d",
-			((address.host) & 0xFF),
-			((address.host >> 8) & 0xFF),
-			((address.host >> 16) & 0xFF),
-			(address.host >> 24& 0xFF),
-			address.port);
+			address.host.Byte[12],
+			address.host.Byte[13],
+			address.host.Byte[14],
+			address.host.Byte[15],
+	 		address.port);
+	)
 
 	return 1;
 }
