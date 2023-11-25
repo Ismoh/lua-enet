@@ -18,7 +18,15 @@
     },
     "tasks": [
       {
-        "label": "1. Clean and create build",
+        "label": "1. Add or update dependency sources",
+        "type": "shell",
+        "windows": {
+          "command": "cd ${workspaceFolder} && gh release download v2.3.6 --repo zpl-c/enet --clobber"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "2. Clean and create build",
         "type": "shell",
         "windows": {
           "command": "cd ${workspaceFolder} && rd /s build /q && mkdir build && cmake -S . -B build"
@@ -26,7 +34,7 @@
         "problemMatcher": []
       },
       {
-        "label": "2. Run build",
+        "label": "3. Run build",
         "type": "shell",
         "windows": {
           "command": "cmake --build build --config Release && cmake --build build --config Debug"
@@ -34,7 +42,7 @@
         "problemMatcher": []
       },
       {
-        "label": "3. Run CPack",
+        "label": "4. Run CPack",
         "type": "shell",
         "windows": {
           "command": "cd build && cpack"

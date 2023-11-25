@@ -8,10 +8,6 @@ set(LUA_LIBRARIES
     ${PROJECT_SOURCE_DIR}/luajit2.1/bin/lua51.lib
 )
 
-set(ENET_LIBRARY
-    ${PROJECT_SOURCE_DIR}/enet/enet.lib
-)
-
 set(LUA_INCLUDE_DIR
     ${PROJECT_SOURCE_DIR}/luajit2.1/include
 )
@@ -22,7 +18,7 @@ set(ENET_INCLUDE_DIR
 include_directories(${ENET_INCLUDE_DIR})
 
 target_link_libraries(enet
-    PRIVATE winmm ws2_32 ${LUA_LIBRARIES} ${ENET_LIBRARY}
+    PRIVATE winmm ws2_32 ${LUA_LIBRARIES}
 )
 
 target_include_directories(enet

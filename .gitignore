@@ -3,4 +3,10 @@
 .*.swp
 /*.lua
 
+# build dir
 build
+
+# zpl-c/enet dependency
+enet.h
+enet_shared.*
+libenet_shared.*

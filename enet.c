@@ -30,7 +30,9 @@
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
-#include <enet/enet.h>
+// Make use of https://github.com/zpl-c/enet?tab=readme-ov-file#usage-single-header-preferred
+#define ENET_IMPLEMENTATION
+#include "enet.h"
 
 #define check_host(l, idx)\
 	*(ENetHost**)luaL_checkudata(l, idx, "enet_host")
