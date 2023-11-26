@@ -105,6 +105,9 @@ static void parse_address(lua_State *l, const char *addr_str, ENetAddress *addre
 	{
 		address->port = atoi(port_str);
 	}
+
+	printf("host_address=%s", host_str);
+	printf("host_port=%s", port_str);
 }
 
 /**
