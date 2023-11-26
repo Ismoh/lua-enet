@@ -1,6 +1,20 @@
 {
     "cSpell.words": [
+        "checkstring",
+        "checkudata",
         "enet",
-        "leafo"
+        "getfield",
+        "getmetatable",
+        "gettop",
+        "isnil",
+        "leafo",
+        "newuserdata",
+        "pushfstring",
+        "pushlightuserdata",
+        "pushnil",
+        "pushstring",
+        "pushvalue",
+        "REGISTRYINDEX",
+        "setmetatable"
     ]
 }
