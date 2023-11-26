@@ -763,7 +763,7 @@ static const struct luaL_Reg enet_event_funcs [] = {
 	{NULL, NULL}
 };
 
-int luaopen_enet(lua_State *l) {
+__declspec( dllexport ) int luaopen_enet(lua_Statel) {
 	enet_initialize();
 	atexit(enet_deinitialize);
 
