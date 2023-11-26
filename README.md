@@ -2,7 +2,7 @@
 
 ## :information_source: Disclaimer
 
-> Forked from  [leafo/lua-enet](https://github.com/leafo/lua-enet), but with a few changes to make it work with [zpl-c/enet](https://github.com/zpl-c/enet).
+> Forked from [leafo/lua-enet](https://github.com/leafo/lua-enet), but with a few changes to make it work with [zpl-c/enet](https://github.com/zpl-c/enet).
 
 ### :information_source: Versioning
 
