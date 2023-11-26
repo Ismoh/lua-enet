@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(lua-enet)
+project(lua-enet
+    VERSION 2.3.6
+    HOMEPAGE_URL "https://github.com/Ismoh/lua-enet"
+    DESCRIPTION "Lua bindings for zpl-c/eNet."
+)
 
 add_library(enet SHARED enet.c)
 
