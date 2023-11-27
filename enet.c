@@ -32,6 +32,7 @@
 #include "lauxlib.h"
 // Make use of https://github.com/zpl-c/enet?tab=readme-ov-file#usage-single-header-preferred
 #define ENET_IMPLEMENTATION
+#define ENET_FEATURE_ADDRESS_MAPPING
 #define ENET_DLL
 #include "enet.h"
 
