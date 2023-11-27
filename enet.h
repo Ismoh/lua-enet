@@ -4429,7 +4429,7 @@ extern "C" {
         }
 
         if (host->socket == ENET_SOCKET_NULL || (address != NULL && enet_socket_bind(host->socket, address) < 0)) {
-            printf("bind socket failed\n");
+            printf("bind socket failed: %d\n", WSAGetLastError());
             if (host->socket != ENET_SOCKET_NULL) {
                 enet_socket_destroy(host->socket);
             }
