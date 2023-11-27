@@ -6,7 +6,7 @@
 
 ### :information_source: Versioning
 
-> Version of this lua-enet is the same as the version of enet it is based on, with the addition of a patch number to indicate the version of this lua-enet.
+> Version of [Ismoh/lua-enet](https://github.com/Ismoh/lua-enet) is the same as the version of [zpl-c/enet](https://github.com/zpl-c/enet) it is based on, with the addition of a 'build' number to indicate changes to this repository.
 
 ### Original README.md
 
