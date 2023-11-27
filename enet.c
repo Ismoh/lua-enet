@@ -107,8 +107,8 @@ static void parse_address(lua_State *l, const char *addr_str, ENetAddress *addre
 		address->port = atoi(port_str);
 	}
 
-	printf("host_address=%s", host_str);
-	printf("host_port=%s", port_str);
+	//printf("host_address=%s", host_str);
+	//printf("host_port=%s", port_str);
 }
 
 /**
@@ -137,7 +137,7 @@ static void push_peer(lua_State *l, ENetPeer *peer)
 
 	if (lua_isnil(l, -1))
 	{
-		// printf("creating new peer\n");
+		//printf("creating new peer\n");
 		lua_pop(l, 1);
 
 		*(ENetPeer **)lua_newuserdata(l, sizeof(void *)) = peer;
@@ -287,12 +287,12 @@ static int host_create(lua_State *l)
 			peer_count = luaL_checkint(l, 2);
 	}
 
-	printf("host_create, address=%d.%d.%d.%d, peers=%d, channels=%d, in=%d, out=%d\n",
-		   address.host.u.Byte[12], address.host.u.Byte[13], address.host.u.Byte[14], address.host.u.Byte[15],
-		   peer_count, channel_count, in_bandwidth, out_bandwidth);
+	//printf("host_create, address=%d.%d.%d.%d, peers=%d, channels=%d, in=%d, out=%d\n",
+	//	   address.host.u.Byte[12], address.host.u.Byte[13], address.host.u.Byte[14], address.host.u.Byte[15],
+	//	   peer_count, channel_count, in_bandwidth, out_bandwidth);
 
 	host = enet_host_create(have_address ? &address : NULL, peer_count, channel_count, in_bandwidth, out_bandwidth);
-	printf("whats happening!\n");
+	//printf("whats happening!\n");
 
 	if (host == NULL)
 	{
@@ -402,7 +402,7 @@ static int host_connect(lua_State *l)
 			channel_count = luaL_checkint(l, 3);
 	}
 
-	// printf("host connect, channels=%d, data=%d\n", channel_count, data);
+	//printf("host connect, channels=%d, data=%d\n", channel_count, data);
 	peer = enet_host_connect(host, &address, channel_count, data);
 
 	if (peer == NULL)
@@ -818,7 +818,7 @@ static int peer_send(lua_State *l)
 	enet_uint8 channel_id;
 	ENetPacket *packet = read_packet(l, 2, &channel_id);
 
-	// printf("sending, channel_id=%d\n", channel_id);
+	//printf("sending, channel_id=%d\n", channel_id);
 	enet_peer_send(peer, channel_id, packet);
 	return 0;
 }

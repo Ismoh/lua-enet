@@ -4399,16 +4399,16 @@ extern "C" {
         ENetHost *host;
         ENetPeer *currentPeer;
 
-        printf("enet_host_create\n");
+        //printf("enet_host_create\n");
 
         if (peerCount > ENET_PROTOCOL_MAXIMUM_PEER_ID) {
-            printf("max peer count reached\n");
+            //printf("max peer count reached\n");
             return NULL;
         }
 
         host = (ENetHost *) enet_malloc(sizeof(ENetHost));
         if (host == NULL) { 
-            printf("memory allocation failed\n");
+            //printf("memory allocation failed\n");
             return NULL; 
         }
         memset(host, 0, sizeof(ENetHost));
@@ -4416,20 +4416,20 @@ extern "C" {
         host->peers = (ENetPeer *) enet_malloc(peerCount * sizeof(ENetPeer));
         if (host->peers == NULL) {
             enet_free(host);
-            printf("memory allocation failed 2\n");
+            //printf("memory allocation failed 2\n");
             return NULL;
         }
 
         memset(host->peers, 0, peerCount * sizeof(ENetPeer));
 
         host->socket = enet_socket_create(ENET_SOCKET_TYPE_DATAGRAM);
-        printf("socket=%d\n", host->socket);
+        //printf("socket=%d\n", host->socket);
         if (host->socket != ENET_SOCKET_NULL) {
             enet_socket_set_option (host->socket, ENET_SOCKOPT_IPV6_V6ONLY, 0);
         }
 
         if (host->socket == ENET_SOCKET_NULL || (address != NULL && enet_socket_bind(host->socket, address) < 0)) {
-            printf("bind socket failed: %d\n", WSAGetLastError());
+            //printf("bind socket failed: %d\n", WSAGetLastError());
             if (host->socket != ENET_SOCKET_NULL) {
                 enet_socket_destroy(host->socket);
             }
@@ -4504,7 +4504,7 @@ extern "C" {
             enet_peer_reset(currentPeer);
         }
 
-        printf("ggs\n");
+        //printf("ggs\n");
         return host;
     } /* enet_host_create */
 
