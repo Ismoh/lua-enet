@@ -4423,12 +4423,13 @@ extern "C" {
         memset(host->peers, 0, peerCount * sizeof(ENetPeer));
 
         host->socket = enet_socket_create(ENET_SOCKET_TYPE_DATAGRAM);
+        printf("socket=%d\n", host->socket);
         if (host->socket != ENET_SOCKET_NULL) {
             enet_socket_set_option (host->socket, ENET_SOCKOPT_IPV6_V6ONLY, 0);
         }
 
         if (host->socket == ENET_SOCKET_NULL || (address != NULL && enet_socket_bind(host->socket, address) < 0)) {
-            printf("bind socker failed\n");
+            printf("bind socket failed\n");
             if (host->socket != ENET_SOCKET_NULL) {
                 enet_socket_destroy(host->socket);
             }
