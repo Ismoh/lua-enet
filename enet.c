@@ -291,6 +291,7 @@ static int host_create(lua_State *l)
 		   peer_count, channel_count, in_bandwidth, out_bandwidth);
 
 	host = enet_host_create(have_address ? &address : NULL, peer_count, channel_count, in_bandwidth, out_bandwidth);
+	printf("whats happening!\n");
 
 	if (host == NULL)
 	{
