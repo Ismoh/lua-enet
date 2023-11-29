@@ -34,6 +34,7 @@
 #define ENET_IMPLEMENTATION
 #define ENET_FEATURE_ADDRESS_MAPPING
 #define ENET_DLL
+#define ENET_DEBUG
 #include "enet.h"
 
 #define check_host(l, idx) \
