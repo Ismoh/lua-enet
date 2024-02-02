@@ -78,7 +78,7 @@ char *GetErrorMessage(DWORD dwErrorCode)
 		NULL,
 		dwLastError,
 		0,
-		(LPWSTR)&strErrorMessage,
+		(LPSTR)&strErrorMessage,
 		0,
 		NULL);
 	return strErrorMessage;
