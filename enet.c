@@ -41,6 +41,7 @@
 #include <Windows.h>
 #include <system_error>
 #include <memory>
+#include <string>
 typedef std::basic_string<TCHAR> String;
 
 String GetErrorMessage(DWORD dwErrorCode)
