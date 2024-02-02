@@ -8,11 +8,11 @@ project(lua-enet
 
 add_library(enet SHARED enet.c)
 
-set(LUA_LIBRARIES ${PROJECT_SOURCE_DIR}/luajit2.1/bin/lua51.lib
+set(LUA_LIBRARIES ${PROJECT_SOURCE_DIR}/luajit/bin/lua51.lib
     CACHE FILEPATH "Path to lua lib"
 )
 
-set(LUA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/luajit2.1/include
+set(LUA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/luajit/include
     CACHE PATH "Path to lua include dir"
 )
 set(ENET_INCLUDE_DIR
