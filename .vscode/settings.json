@@ -10,6 +10,7 @@
         "leafo",
         "LPSTR",
         "LPWSTR",
+        "MAKELANGID",
         "newuserdata",
         "pushfstring",
         "pushlightuserdata",
@@ -17,11 +18,13 @@
         "pushstring",
         "pushvalue",
         "REGISTRYINDEX",
-        "setmetatable"
+        "setmetatable",
+        "SUBLANG"
     ],
     "files.associations": {
         "NOTES_BY_MYSELF": "plaintext",
         "*.rockspec": "json",
-        "string": "c"
+        "string": "c",
+        "cstdio": "cpp"
     }
 }

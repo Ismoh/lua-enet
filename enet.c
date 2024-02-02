@@ -69,16 +69,26 @@ char *GetErrorMessage(DWORD dwLastErrorCode)
 	// 	throw std::system_error(error_code, std::system_category(),
 	// 							"Failed to retrieve error message string.");
 	// }
-	char* strErrorMessage = NULL;
+	char *strErrorMessage = NULL;
 
-	FormatMessage(
-		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ARGUMENT_ARRAY | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+	FormatMessageA(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_ARGUMENT_ARRAY | FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_FROM_STRING |
+			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_MAX_WIDTH_MASK,
 		NULL,
 		dwLastErrorCode,
-		0,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(LPSTR)&strErrorMessage,
 		0,
 		NULL);
+
+	if (dwErrorMessage > 0)
+	{
+		printf("Error: %s\n", strErrorMessage);
+	}
+	else
+	{
+		printf("Error: %d\n", dwLastErrorCode);
+	}
 	return strErrorMessage;
 }
 
