@@ -38,38 +38,42 @@
 #include "enet.h"
 
 // https://stackoverflow.com/questions/1387064/how-to-get-the-error-message-from-the-error-code-returned-by-getlasterror/45565001#45565001
-#include <Windows.h>
-#include <system_error>
-#include <memory>
-#include <string>
-typedef std::basic_string<TCHAR> String;
+// #include <Windows.h>
+// #include <system_error>
+// #include <memory>
+// #include <string>
+// typedef std::basic_string<TCHAR> String;
 
-String GetErrorMessage(DWORD dwErrorCode)
+wchar_t GetErrorMessage(DWORD dwErrorCode)
 {
-    LPTSTR psz{ nullptr };
-    const DWORD cchMsg = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM
-                                         | FORMAT_MESSAGE_IGNORE_INSERTS
-                                         | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-                                       NULL, // (not used with FORMAT_MESSAGE_FROM_SYSTEM)
-                                       dwErrorCode,
-                                       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                                       reinterpret_cast<LPTSTR>(&psz),
-                                       0,
-                                       NULL);
-    if (cchMsg > 0)
-    {
-        // Assign buffer to smart pointer with custom deleter so that memory gets released
-        // in case String's c'tor throws an exception.
-        auto deleter = [](void* p) { ::LocalFree(p); };
-        std::unique_ptr<TCHAR, decltype(deleter)> ptrBuffer(psz, deleter);
-        return String(ptrBuffer.get(), cchMsg);
-    }
-    else
-    {
-        auto error_code{ ::GetLastError() };
-        throw std::system_error( error_code, std::system_category(),
-                                 "Failed to retrieve error message string.");
-    }
+	// LPTSTR psz{nullptr};
+	// const DWORD cchMsg = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+	// 								   NULL, // (not used with FORMAT_MESSAGE_FROM_SYSTEM)
+	// 								   dwErrorCode,
+	// 								   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+	// 								   reinterpret_cast<LPTSTR>(&psz),
+	// 								   0,
+	// 								   NULL);
+	// if (cchMsg > 0)
+	// {
+	// 	// Assign buffer to smart pointer with custom deleter so that memory gets released
+	// 	// in case String's c'tor throws an exception.
+	// 	auto deleter = [](void *p)
+	// 	{ ::LocalFree(p); };
+	// 	std::unique_ptr<TCHAR, decltype(deleter)> ptrBuffer(psz, deleter);
+	// 	return String(ptrBuffer.get(), cchMsg);
+	// }
+	// else
+	// {
+	// 	auto error_code{::GetLastError()};
+	// 	throw std::system_error(error_code, std::system_category(),
+	// 							"Failed to retrieve error message string.");
+	// }
+
+	wchar_t err[256];
+	memset(err, 0, 256);
+	FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), err, 255, NULL);
+	return err;
 }
 
 #define check_host(l, idx) \
@@ -143,8 +147,8 @@ static void parse_address(lua_State *l, const char *addr_str, ENetAddress *addre
 		address->port = atoi(port_str);
 	}
 
-	//printf("host_address=%s", host_str);
-	//printf("host_port=%s", port_str);
+	// printf("host_address=%s", host_str);
+	// printf("host_port=%s", port_str);
 }
 
 /**
@@ -173,7 +177,7 @@ static void push_peer(lua_State *l, ENetPeer *peer)
 
 	if (lua_isnil(l, -1))
 	{
-		//printf("creating new peer\n");
+		// printf("creating new peer\n");
 		lua_pop(l, 1);
 
 		*(ENetPeer **)lua_newuserdata(l, sizeof(void *)) = peer;
@@ -323,12 +327,12 @@ static int host_create(lua_State *l)
 			peer_count = luaL_checkint(l, 2);
 	}
 
-	//printf("host_create, address=%d.%d.%d.%d, peers=%d, channels=%d, in=%d, out=%d\n",
+	// printf("host_create, address=%d.%d.%d.%d, peers=%d, channels=%d, in=%d, out=%d\n",
 	//	   address.host.u.Byte[12], address.host.u.Byte[13], address.host.u.Byte[14], address.host.u.Byte[15],
 	//	   peer_count, channel_count, in_bandwidth, out_bandwidth);
 
 	host = enet_host_create(have_address ? &address : NULL, peer_count, channel_count, in_bandwidth, out_bandwidth);
-	//printf("whats happening!\n");
+	// printf("whats happening!\n");
 
 	if (host == NULL)
 	{
@@ -380,7 +384,7 @@ static int host_service(lua_State *l)
 		return 0;
 	if (out < 0)
 		DWORD lastError = GetLastError();
-		return luaL_error(l, GetErrorMessage(out)); // return luaL_error(l, "Error during service");
+	return luaL_error(l, GetErrorMessage(out)); // return luaL_error(l, "Error during service");
 
 	push_event(l, &event);
 	return 1;
@@ -439,7 +443,7 @@ static int host_connect(lua_State *l)
 			channel_count = luaL_checkint(l, 3);
 	}
 
-	//printf("host connect, channels=%d, data=%d\n", channel_count, data);
+	// printf("host connect, channels=%d, data=%d\n", channel_count, data);
 	peer = enet_host_connect(host, &address, channel_count, data);
 
 	if (peer == NULL)
@@ -855,7 +859,7 @@ static int peer_send(lua_State *l)
 	enet_uint8 channel_id;
 	ENetPacket *packet = read_packet(l, 2, &channel_id);
 
-	//printf("sending, channel_id=%d\n", channel_id);
+	// printf("sending, channel_id=%d\n", channel_id);
 	enet_peer_send(peer, channel_id, packet);
 	return 0;
 }
