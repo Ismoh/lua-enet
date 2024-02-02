@@ -71,7 +71,7 @@ char *GetErrorMessage(DWORD dwErrorCode)
 	// }
 
 	DWORD dwLastError = GetLastError();
-	LPCTSTR strErrorMessage = NULL;
+	char* strErrorMessage = NULL;
 
 	FormatMessage(
 		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ARGUMENT_ARRAY | FORMAT_MESSAGE_ALLOCATE_BUFFER,
