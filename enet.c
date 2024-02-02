@@ -44,7 +44,7 @@
 // #include <string>
 // typedef std::basic_string<TCHAR> String;
 
-wchar_t GetErrorMessage(DWORD dwErrorCode)
+char *GetErrorMessage(DWORD dwErrorCode)
 {
 	// LPTSTR psz{nullptr};
 	// const DWORD cchMsg = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
@@ -70,10 +70,18 @@ wchar_t GetErrorMessage(DWORD dwErrorCode)
 	// 							"Failed to retrieve error message string.");
 	// }
 
-	wchar_t err[256];
-	memset(err, 0, 256);
-	FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), err, 255, NULL);
-	return err;
+	DWORD dwLastError = GetLastError();
+	LPCTSTR strErrorMessage = NULL;
+
+	FormatMessage(
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ARGUMENT_ARRAY | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+		NULL,
+		dwLastError,
+		0,
+		(LPWSTR)&strErrorMessage,
+		0,
+		NULL);
+	return strErrorMessage;
 }
 
 #define check_host(l, idx) \

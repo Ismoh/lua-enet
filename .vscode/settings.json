@@ -8,6 +8,7 @@
         "gettop",
         "isnil",
         "leafo",
+        "LPWSTR",
         "newuserdata",
         "pushfstring",
         "pushlightuserdata",
@@ -16,5 +17,10 @@
         "pushvalue",
         "REGISTRYINDEX",
         "setmetatable"
-    ]
+    ],
+    "files.associations": {
+        "NOTES_BY_MYSELF": "plaintext",
+        "*.rockspec": "json",
+        "string": "c"
+    }
 }
