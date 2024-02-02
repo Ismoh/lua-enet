@@ -8,6 +8,7 @@
         "gettop",
         "isnil",
         "leafo",
+        "LPSTR",
         "LPWSTR",
         "newuserdata",
         "pushfstring",

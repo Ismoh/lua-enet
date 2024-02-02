@@ -44,7 +44,7 @@
 // #include <string>
 // typedef std::basic_string<TCHAR> String;
 
-char *GetErrorMessage(DWORD dwErrorCode)
+char *GetErrorMessage(DWORD dwLastErrorCode)
 {
 	// LPTSTR psz{nullptr};
 	// const DWORD cchMsg = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
@@ -69,14 +69,12 @@ char *GetErrorMessage(DWORD dwErrorCode)
 	// 	throw std::system_error(error_code, std::system_category(),
 	// 							"Failed to retrieve error message string.");
 	// }
-
-	DWORD dwLastError = GetLastError();
 	char* strErrorMessage = NULL;
 
 	FormatMessage(
 		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ARGUMENT_ARRAY | FORMAT_MESSAGE_ALLOCATE_BUFFER,
 		NULL,
-		dwLastError,
+		dwLastErrorCode,
 		0,
 		(LPSTR)&strErrorMessage,
 		0,
