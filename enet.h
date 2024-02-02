@@ -3254,7 +3254,7 @@ extern "C" {
                     #endif
                     DWORD lastError = GetLastError();
                     //perror(GetErrorMessage(lastError));
-                    return lastError; // -1;
+                    return lastError * -1; // -1;
 
                 default:
                     break;
@@ -3279,7 +3279,7 @@ extern "C" {
                     #endif
                     DWORD lastError = GetLastError();
                     //perror(GetErrorMessage(lastError));
-                    return lastError; // -1;
+                    return lastError * -1; // -1;
 
                 default:
                     break;
@@ -3295,7 +3295,7 @@ extern "C" {
                     #endif
                     DWORD lastError = GetLastError();
                     //perror(GetErrorMessage(lastError));
-                    return lastError; // -1;
+                    return lastError * -1; // -1;
 
                 default:
                     break;
@@ -3311,7 +3311,7 @@ extern "C" {
                     #endif
                     DWORD lastError = GetLastError();
                     //perror(GetErrorMessage(lastError));
-                    return lastError; // -1;
+                    return lastError * -1; // -1;
 
                 default:
                     break;
@@ -3328,7 +3328,7 @@ extern "C" {
                         #endif
                         DWORD lastError = GetLastError();
                         //perror(GetErrorMessage(lastError));
-                        return lastError; // -1;
+                        return lastError * -1; // -1;
 
                     default:
                         break;
@@ -3350,7 +3350,7 @@ extern "C" {
                 if (enet_socket_wait(host->socket, &waitCondition, ENET_TIME_DIFFERENCE(timeout, host->serviceTime)) != 0) {
                     DWORD lastError = GetLastError();
                     //perror(GetErrorMessage(lastError));
-                    return lastError; // -1;
+                    return lastError * -1; // -1;
                 }
             } while (waitCondition & ENET_SOCKET_WAIT_INTERRUPT);
 

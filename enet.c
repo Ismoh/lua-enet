@@ -389,8 +389,7 @@ static int host_service(lua_State *l)
 	if (out == 0)
 		return 0;
 	if (out < 0)
-		DWORD lastError = GetLastError();
-	return luaL_error(l, GetErrorMessage(out)); // return luaL_error(l, "Error during service");
+		return luaL_error(l, GetErrorMessage(out)); // return luaL_error(l, "Error during service");
 
 	push_event(l, &event);
 	return 1;
