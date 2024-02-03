@@ -44,9 +44,13 @@ char *GetErrorMessage(DWORD dwLastErrorCode)
 {
 	char *strErrorMessage = NULL;
 
+	if (dwLastErrorCode == 0)
+	{
+		return "No last error code";
+	}
+
 	const DWORD dwErrorMessage = FormatMessageA(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_ARGUMENT_ARRAY | FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_FROM_STRING |
-			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_MAX_WIDTH_MASK,
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
 		NULL,
 		dwLastErrorCode,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
@@ -371,8 +375,11 @@ static int host_service(lua_State *l)
 	out = enet_host_service(host, &event, timeout);
 	if (out == 0)
 		return 0;
+	if (out > 0)
+		char *strErrorMessage = GetErrorMessage(out);
+		return luaL_error(l, strErrorMessage);
 	if (out < 0)
-		return luaL_error(l, GetErrorMessage(out)); // return luaL_error(l, "Error during service");
+		return luaL_error(l, "Error during service");
 
 	push_event(l, &event);
 	return 1;

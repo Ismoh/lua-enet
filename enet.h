@@ -3252,9 +3252,7 @@ extern "C" {
                     #ifdef ENET_DEBUG
                     perror("Error dispatching incoming packets");
                     #endif
-                    DWORD lastError = GetLastError();
-                    //perror(GetErrorMessage(lastError));
-                    return lastError * -1; // -1;
+                    return GetLastError(); // -1;
 
                 default:
                     break;
@@ -3276,10 +3274,8 @@ extern "C" {
                 case -1:
                     #ifdef ENET_DEBUG
                     perror("Error sending outgoing packets");
-                    #endif
-                    DWORD lastError = GetLastError();
-                    //perror(GetErrorMessage(lastError));
-                    return lastError * -1; // -1;
+                    #endif                    
+                    return GetLastError(); // -1;
 
                 default:
                     break;
@@ -3293,9 +3289,7 @@ extern "C" {
                     #ifdef ENET_DEBUG
                     perror("Error receiving incoming packets");
                     #endif
-                    DWORD lastError = GetLastError();
-                    //perror(GetErrorMessage(lastError));
-                    return lastError * -1; // -1;
+                    return GetLastError(); // -1;
 
                 default:
                     break;
@@ -3309,9 +3303,7 @@ extern "C" {
                     #ifdef ENET_DEBUG
                     perror("Error sending outgoing packets");
                     #endif
-                    DWORD lastError = GetLastError();
-                    //perror(GetErrorMessage(lastError));
-                    return lastError * -1; // -1;
+                    return GetLastError(); // -1;
 
                 default:
                     break;
@@ -3326,9 +3318,7 @@ extern "C" {
                         #ifdef ENET_DEBUG
                         perror("Error dispatching incoming packets");
                         #endif
-                        DWORD lastError = GetLastError();
-                        //perror(GetErrorMessage(lastError));
-                        return lastError * -1; // -1;
+                        return GetLastError(); // -1;
 
                     default:
                         break;
@@ -3348,9 +3338,7 @@ extern "C" {
 
                 waitCondition = ENET_SOCKET_WAIT_RECEIVE | ENET_SOCKET_WAIT_INTERRUPT;
                 if (enet_socket_wait(host->socket, &waitCondition, ENET_TIME_DIFFERENCE(timeout, host->serviceTime)) != 0) {
-                    DWORD lastError = GetLastError();
-                    //perror(GetErrorMessage(lastError));
-                    return lastError * -1; // -1;
+                    return GetLastError(); // -1;
                 }
             } while (waitCondition & ENET_SOCKET_WAIT_INTERRUPT);
 
