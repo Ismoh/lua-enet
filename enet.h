@@ -1236,45 +1236,62 @@ extern "C" {
 /// @return The error message string, if available, otherwise error code.
 char *GetErrorMessage(DWORD dwLastErrorCode)
 {
-	char *strErrorMessage = NULL;
-        DWORD err = 0;
-	if (dwLastErrorCode == 0)
-	{
+    char *strErrorMessage = NULL;
+    DWORD err = 0;
+    if (dwLastErrorCode == 0) {
             return NULL;
-	}
+    }
 
-        err = FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,   // flags
-               NULL,                // lpsource
-               dwLastErrorCode,                 // message id
-               MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),    // languageid
-               &strErrorMessage,              // output buffer
-               0,     // size of msgbuf, bytes
-               NULL);               // va_list of arguments
+    err = FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,   // flags
+                         NULL,                // lpsource
+                         dwLastErrorCode,                 // message id
+                         MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),    // languageid
+                         (LPTSTR)&strErrorMessage,              // output buffer
+                         0,     // size of msgbuf, bytes
+                         NULL);               // va_list of arguments
 
-        if (!err)
-            return NULL;
-	return strErrorMessage;
+    if (!err)
+        return NULL;
+    return strErrorMessage;
+}
+
+static void debug_error_buf(char *buf, size_t size)
+{
+    DWORD err = GetLastError();
+    DWORD err_wsa = WSAGetLastError();
+    char *s, *s_wsa, *final;
+    size_t len;
+
+    s = GetErrorMessage(err);
+    s_wsa = GetErrorMessage(err_wsa);
+
+    final = err_wsa ? s_wsa : (s ? s : "<no err msg>");
+    len = strlen(final);
+    memset(buf, 0, size);
+    memcpy(buf, final, min(len, size-1));
+    if (s) LocalFree(s);
+    if (s_wsa) LocalFree(s_wsa);
 }
 
 static DWORD debug_error(void)
 {
     DWORD err = GetLastError();
-    DWORD err_wsa;
-    char *s = GetErrorMessage(err);
+    DWORD err_wsa = WSAGetLastError();
+    char *s;
 
+    s = GetErrorMessage(err);
     printf("GLE: %d 0x%x %s\n", err, err, s ? s : "<no msg>");
     if (s) LocalFree(s);
 
-    err_wsa = WSAGetLastError();
     s = GetErrorMessage(err_wsa);
     printf("WSAGLE: %d 0x%x %s\n", err_wsa, err_wsa, s ? s : "<no msg>");
     if (s) LocalFree(s);
-    
-    return err ? err : err_wsa;
+
+    return err_wsa ? err_wsa : err;
 }
 
 
-  
+
 // =======================================================================//
 // !
 // ! Callbacks

@@ -43,6 +43,8 @@
 #define check_peer(l, idx) \
 	*(ENetPeer **)luaL_checkudata(l, idx, "enet_peer")
 
+char g_err_buf[1024];
+
 /**
  * Parse address string, eg:
  *	*:5959
@@ -343,11 +345,10 @@ static int host_service(lua_State *l)
 	out = enet_host_service(host, &event, timeout);
 	if (out == 0)
 		return 0;
-	if (out > 0)
-		char *strErrorMessage = GetErrorMessage(out);
-		return luaL_error(l, strErrorMessage);
-	if (out < 0)
-		return luaL_error(l, "Error during service");
+	if (out < 0) {
+		debug_error_buf(g_err_buf, sizeof(g_err_buf));
+		return luaL_error(l, g_err_buf);
+	}
 
 	push_event(l, &event);
 	return 1;
@@ -367,8 +368,10 @@ static int host_check_events(lua_State *l)
 	int out = enet_host_check_events(host, &event);
 	if (out == 0)
 		return 0;
-	if (out < 0)
-		return luaL_error(l, "Error checking event");
+	if (out < 0) {
+		debug_error_buf(g_err_buf, sizeof(g_err_buf));
+		return luaL_error(l, g_err_buf);
+	}
 
 	push_event(l, &event);
 	return 1;
@@ -411,8 +414,8 @@ static int host_connect(lua_State *l)
 
 	if (peer == NULL)
 	{
-                debug_error();
-		return luaL_error(l, "Failed to create peer");
+		debug_error_buf(g_err_buf, sizeof(g_err_buf));
+		return luaL_error(l, g_err_buf);
 	}
 
 	push_peer(l, peer);
