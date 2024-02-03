@@ -1230,6 +1230,51 @@ extern "C" {
 
 #endif /* defined(_MSC_VER) */
 
+
+/// @brief Retrieve the error message for the last error code. And get the error message string or error code.
+/// @param dwLastErrorCode The last error code.
+/// @return The error message string, if available, otherwise error code.
+char *GetErrorMessage(DWORD dwLastErrorCode)
+{
+	char *strErrorMessage = NULL;
+        DWORD err = 0;
+	if (dwLastErrorCode == 0)
+	{
+            return NULL;
+	}
+
+        err = FormatMessage (FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,   // flags
+               NULL,                // lpsource
+               dwLastErrorCode,                 // message id
+               MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),    // languageid
+               &strErrorMessage,              // output buffer
+               0,     // size of msgbuf, bytes
+               NULL);               // va_list of arguments
+
+        if (!err)
+            return NULL;
+	return strErrorMessage;
+}
+
+static DWORD debug_error(void)
+{
+    DWORD err = GetLastError();
+    DWORD err_wsa;
+    char *s = GetErrorMessage(err);
+
+    printf("GLE: %d 0x%x %s\n", err, err, s ? s : "<no msg>");
+    if (s) LocalFree(s);
+
+    err_wsa = WSAGetLastError();
+    s = GetErrorMessage(err_wsa);
+    printf("WSAGLE: %d 0x%x %s\n", err_wsa, err_wsa, s ? s : "<no msg>");
+    if (s) LocalFree(s);
+    
+    return err ? err : err_wsa;
+}
+
+
+  
 // =======================================================================//
 // !
 // ! Callbacks
@@ -3251,8 +3296,9 @@ extern "C" {
                 case -1:
                     #ifdef ENET_DEBUG
                     perror("Error dispatching incoming packets");
+                    debug_error();
                     #endif
-                    return GetLastError(); // -1;
+                    return -1;
 
                 default:
                     break;
@@ -3274,8 +3320,9 @@ extern "C" {
                 case -1:
                     #ifdef ENET_DEBUG
                     perror("Error sending outgoing packets");
+                    debug_error();
                     #endif                    
-                    return GetLastError(); // -1;
+                    return -1;
 
                 default:
                     break;
@@ -3288,8 +3335,9 @@ extern "C" {
                 case -1:
                     #ifdef ENET_DEBUG
                     perror("Error receiving incoming packets");
+                    debug_error();
                     #endif
-                    return GetLastError(); // -1;
+                    return -1;
 
                 default:
                     break;
@@ -3302,8 +3350,9 @@ extern "C" {
                 case -1:
                     #ifdef ENET_DEBUG
                     perror("Error sending outgoing packets");
+                    debug_error();
                     #endif
-                    return GetLastError(); // -1;
+                    return -1;
 
                 default:
                     break;
@@ -3317,8 +3366,9 @@ extern "C" {
                     case -1:
                         #ifdef ENET_DEBUG
                         perror("Error dispatching incoming packets");
+                        debug_error();
                         #endif
-                        return GetLastError(); // -1;
+                        return -1;
 
                     default:
                         break;
@@ -3338,7 +3388,8 @@ extern "C" {
 
                 waitCondition = ENET_SOCKET_WAIT_RECEIVE | ENET_SOCKET_WAIT_INTERRUPT;
                 if (enet_socket_wait(host->socket, &waitCondition, ENET_TIME_DIFFERENCE(timeout, host->serviceTime)) != 0) {
-                    return GetLastError(); // -1;
+                    debug_error();
+                    return -1;
                 }
             } while (waitCondition & ENET_SOCKET_WAIT_INTERRUPT);
 
@@ -5910,6 +5961,7 @@ extern "C" {
 
         result = connect(socket, (struct sockaddr *) &sin, sizeof(struct sockaddr_in6));
         if (result == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
+            debug_error();
             return -1;
         }
 
@@ -5969,6 +6021,8 @@ extern "C" {
             NULL,
             NULL) == SOCKET_ERROR
         ) {
+            if (WSAGetLastError() != WSAEWOULDBLOCK)
+                debug_error();
             return (WSAGetLastError() == WSAEWOULDBLOCK) ? 0 : -1;
         }
 
@@ -5995,7 +6049,7 @@ extern "C" {
                 case WSAECONNRESET:
                     return 0;
             }
-
+            debug_error();
             return -1;
         }
 

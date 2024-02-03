@@ -37,38 +37,6 @@
 #define ENET_DEBUG
 #include "enet.h"
 
-/// @brief Retrieve the error message for the last error code. And get the error message string or error code.
-/// @param dwLastErrorCode The last error code.
-/// @return The error message string, if available, otherwise error code.
-char *GetErrorMessage(DWORD dwLastErrorCode)
-{
-	char *strErrorMessage = NULL;
-
-	if (dwLastErrorCode == 0)
-	{
-		return "No last error code";
-	}
-
-	const DWORD dwErrorMessage = FormatMessageA(
-		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-		NULL,
-		dwLastErrorCode,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPSTR)&strErrorMessage,
-		0,
-		NULL);
-
-	if (dwErrorMessage > 0)
-	{
-		printf("Error: %s\n", strErrorMessage);
-	}
-	else
-	{
-		printf("Error: %d\n", dwLastErrorCode);
-	}
-	return strErrorMessage;
-}
-
 #define check_host(l, idx) \
 	*(ENetHost **)luaL_checkudata(l, idx, "enet_host")
 
@@ -443,6 +411,7 @@ static int host_connect(lua_State *l)
 
 	if (peer == NULL)
 	{
+                debug_error();
 		return luaL_error(l, "Failed to create peer");
 	}
 
